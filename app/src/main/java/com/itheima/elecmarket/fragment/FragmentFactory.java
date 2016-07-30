@@ -26,7 +26,7 @@ public class FragmentFactory {
     //设置缓存fragment的数据
     private static HashMap<Integer,BaseFragment> mFragments = new HashMap<Integer,BaseFragment>();
 
-    public static Fragment createFrament(int position){
+    public static BaseFragment createFragment(int position){
         //从缓存里取出fragment
         BaseFragment fragment = mFragments.get(position);
         if(fragment == null){

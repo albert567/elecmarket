@@ -4,20 +4,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
-import android.view.View;
 
 import com.itheima.elecmarket.application.utils.UIUtils;
-import com.itheima.elecmarket.fragment.AppFragment;
 import com.itheima.elecmarket.fragment.BaseFragment;
-import com.itheima.elecmarket.fragment.CategoryFragment;
 import com.itheima.elecmarket.fragment.FragmentFactory;
-import com.itheima.elecmarket.fragment.GameFragment;
-import com.itheima.elecmarket.fragment.HomeFragment;
-import com.itheima.elecmarket.fragment.HotFragment;
-import com.itheima.elecmarket.fragment.RecommendedFragment;
-import com.itheima.elecmarket.fragment.SubjectFragment;
 import com.itheima.elecmarket.ui.widget.PagerTab;
 
 
@@ -48,6 +39,24 @@ public class MainActivity extends BaseActivity {
         pager.setAdapter(adapter);
         //横着滚动的title和下面的fragment绑定到一起
         tabs.setViewPager(pager);
+        //设置左右滑动的监听
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                BaseFragment fragment = FragmentFactory.createFragment(position);
+                fragment.show();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter{
@@ -67,7 +76,7 @@ public class MainActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
 
-            return FragmentFactory.createFrament(position);
+            return FragmentFactory.createFragment(position);
         }
 
         @Override
