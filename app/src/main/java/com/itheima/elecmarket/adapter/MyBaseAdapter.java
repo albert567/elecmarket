@@ -47,11 +47,11 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
         if(position == getCount()-1){
             return MORE_VIEW_TYPE;
         }else{
-            return getInnerItemViewType();
+            return getInnerItemViewType(position);
         }
     }
 
-    private int getInnerItemViewType() {
+    public int getInnerItemViewType(int position) {
         return ITEM_VIEW_TYPE;
     }
 
@@ -95,7 +95,7 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
         return moreHolder;
     }
 
-    private boolean hasmore() {
+    protected boolean hasmore() {
         return true;
     }
 
