@@ -82,7 +82,7 @@ public class FileUtils {
 	/** 创建文件夹 */
 	public static boolean createDirs(String dirPath) {
 		File file = new File(dirPath);
-		if (!file.exists()) {
+		if (!file.exists() || !file.isDirectory()) {
 			return file.mkdirs();
 		}
 		return true;

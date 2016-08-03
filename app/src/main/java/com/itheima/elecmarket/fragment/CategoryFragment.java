@@ -9,7 +9,7 @@ import com.itheima.elecmarket.ui.widget.LoadingPager;
  */
 public class CategoryFragment extends BaseFragment {
     @Override
-    protected LoadingPager.LoadResult load() {
+    protected LoadingPager.LoadResult loadData() {
         return null;
     }
 

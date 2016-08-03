@@ -2,6 +2,8 @@ package com.itheima.elecmarket.fragment;
 
 import android.support.v4.app.Fragment;
 
+import com.itheima.elecmarket.application.utils.LogUtils;
+
 import java.util.HashMap;
 
 /**
@@ -29,10 +31,12 @@ public class FragmentFactory {
     public static BaseFragment createFragment(int position){
         //从缓存里取出fragment
         BaseFragment fragment = mFragments.get(position);
+        LogUtils.d("fragment==null" + (fragment==null));
         if(fragment == null){
             switch (position){
                 case TAB_HOME://首页
                     fragment = new HomeFragment();
+                    LogUtils.d("首页被创建");
                     break;
                 case TAB_APP://应用
                     fragment = new AppFragment();
@@ -51,6 +55,8 @@ public class FragmentFactory {
                     break;
                 case TAB_HOT://排行
                     fragment = new HotFragment();
+                    break;
+                default:
                     break;
             }
             //把fragment放到缓存里

@@ -2,33 +2,33 @@ package com.itheima.elecmarket.holder;
 
 import android.view.View;
 
-import java.util.ArrayList;
-
-/**
- * Created by zyp on 2016/7/30.
- */
 public abstract class BaseHolder<T> {
-    private View view;
 
-    private T data;
-    public BaseHolder() {
-        view = initView();
-        view.setTag(this);
-    }
+	private View view;
 
-    public void setData(T data){
-        this.data = data;
-        refreshData();
-    }
+	private T data;
 
-    public T getData(){
-        return data;
-    }
+	public BaseHolder() {
+		view = initView();
+		view.setTag(this);
+	}
 
-    public View getRootView(){
-        return view;
-    }
+	protected abstract View initView();
 
-    protected abstract View initView();
-    protected abstract void refreshData();
+	public View getRootView() {
+		return view;
+	}
+
+	// 设置数据的方法
+	public void setData(T data) {
+		this.data = data;
+		refreshView();
+	}
+
+	public abstract void refreshView();
+
+	// 得到数据的方法
+	public T getData() {
+		return data;
+	}
 }

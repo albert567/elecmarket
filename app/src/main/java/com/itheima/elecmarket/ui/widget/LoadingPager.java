@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.itheima.elecmarket.R;
+import com.itheima.elecmarket.application.utils.LogUtils;
 import com.itheima.elecmarket.application.utils.UIUtils;
 import com.itheima.elecmarket.manager.ThreadManager;
 
@@ -51,7 +52,6 @@ public abstract class LoadingPager extends FrameLayout {
     private void init() {
         //初始化默认状态
         mState = STATE_UNLOADING;
-
         loadingView  = createLoadingView();
         if(null != loadingView){
             addView(loadingView,new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
@@ -65,11 +65,6 @@ public abstract class LoadingPager extends FrameLayout {
             addView(errorView,new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
         }
         
-        successView = createSuccessView();
-        if(null != successView){
-            addView(successView,new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
-        }
-
         showSafePagerView();
     }
 
@@ -86,6 +81,7 @@ public abstract class LoadingPager extends FrameLayout {
     }
 
     private void showPagerView() {
+        LogUtils.d("showPagerView方法被调用");
         if(null != loadingView){
             loadingView.setVisibility(mState == STATE_UNLOADING || mState == STATE_LOADING ? View.VISIBLE : View.INVISIBLE);
         }
@@ -98,16 +94,24 @@ public abstract class LoadingPager extends FrameLayout {
             emptyView.setVisibility(mState == STATE_EMPTY ? View.VISIBLE : View.INVISIBLE);
         }
 
-        if(null != successView){
-            successView.setVisibility(mState == STATE_SUCCESS ? View.VISIBLE : View.INVISIBLE);
+        if(null == successView && mState == STATE_SUCCESS){
+            successView = createSuccessView();
+            addView(successView,new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
+        }
+
+        if (null != successView) {
+            successView.setVisibility(mState == STATE_SUCCESS ? View.VISIBLE
+                    : View.INVISIBLE);
         }
 
     }
 
     public void show(){
+        LogUtils.d("LoadingPager的show方法被调用");
         if(mState == STATE_ERROR || mState == STATE_EMPTY){
             mState = STATE_UNLOADING;
-        }else if(mState == STATE_UNLOADING){
+        }
+        if(mState == STATE_UNLOADING){
             mState = STATE_LOADING;
 
             ThreadManager manager = new ThreadManager();
@@ -123,9 +127,11 @@ public abstract class LoadingPager extends FrameLayout {
         @Override
         public void run() {
             final LoadResult result = load();
+            LogUtils.d("数据load:" + result);
             UIUtils.runInMainThread(new Runnable() {
                 @Override
                 public void run() {
+                    LogUtils.d("UIUtils.runInMainThread方法被执行");
                     mState =  result.getValue();
                     showPagerView();
                 }

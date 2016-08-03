@@ -4,32 +4,31 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 
+import com.itheima.elecmarket.application.utils.LogUtils;
 import com.itheima.elecmarket.application.utils.UIUtils;
 import com.itheima.elecmarket.fragment.BaseFragment;
 import com.itheima.elecmarket.fragment.FragmentFactory;
 import com.itheima.elecmarket.ui.widget.PagerTab;
 
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener{
 
     private PagerTab tabs;
     private ViewPager pager;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     protected void init() {
 
     }
 
     @Override
+    protected void initActionBar() {
+
+    }
+
+    @Override
     protected void initView() {
         setContentView(R.layout.activity_main);
-//        DrawerLayout drawerLayout = new DrawerLayout(UIUtils.getContext());
         //初始化横着滚动的title
         tabs = (PagerTab) findViewById(R.id.tabs);
         //初始化viewpager
@@ -40,23 +39,24 @@ public class MainActivity extends BaseActivity {
         //横着滚动的title和下面的fragment绑定到一起
         tabs.setViewPager(pager);
         //设置左右滑动的监听
-        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        tabs.setOnPageChangeListener(this);
+    }
 
-            }
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            @Override
-            public void onPageSelected(int position) {
-                BaseFragment fragment = FragmentFactory.createFragment(position);
-                fragment.show();
-            }
+    }
 
-            @Override
-            public void onPageScrollStateChanged(int state) {
+    @Override
+    public void onPageSelected(int position) {
+        LogUtils.d("onPageSelected被调用");
+        BaseFragment fragment = FragmentFactory.createFragment(position);
+        fragment.show();
+    }
 
-            }
-        });
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
     private class ViewPagerAdapter extends FragmentStatePagerAdapter{
@@ -85,8 +85,5 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void initActionBar() {
 
-    }
 }
